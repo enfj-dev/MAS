@@ -1,0 +1,6 @@
+server:
+  port: 8811
+
+logging:
+  level:
+    reactor.netty.http.client.HttpClient: DEBUG
