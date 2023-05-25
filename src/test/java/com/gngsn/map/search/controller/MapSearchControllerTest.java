@@ -25,7 +25,7 @@ class MapSearchControllerTest {
     public void given_Keyword__when_HTTPRequest__then_10SizeOfPlaceList() {
         webTestClient
                 .get()
-                .uri("/v1/map/search/place/keyword?query=은행")
+                .uri("/v1/map/search/place/keyword?query=용인 농협은행")
                 .exchange()
                 .expectStatus().isOk()
                 .expectBody(PlaceSearchResult.class)

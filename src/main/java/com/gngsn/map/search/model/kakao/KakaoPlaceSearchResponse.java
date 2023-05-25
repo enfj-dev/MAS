@@ -34,7 +34,7 @@ public class KakaoPlaceSearchResponse implements PlaceSearchResponse {
         return this.documents;
     }
 
-    static class Meta {
+    public static class Meta {
 
         @JsonProperty("total_count")
         private int totalCount;
@@ -49,7 +49,7 @@ public class KakaoPlaceSearchResponse implements PlaceSearchResponse {
         private SameName sameName;
     }
 
-    static class SameName {
+    public static class SameName {
         @JsonProperty("region")
         private String[] region;
 
@@ -60,7 +60,7 @@ public class KakaoPlaceSearchResponse implements PlaceSearchResponse {
         private String selectedRegion;
     }
 
-    static class Document {
+    public static class Document {
         @JsonProperty("id")
         private String id;
 
@@ -97,9 +97,16 @@ public class KakaoPlaceSearchResponse implements PlaceSearchResponse {
         @JsonProperty("distance")
         private String distance;
 
-        // TODO [2]: Place에 포함 시킬 데이터 다시 한 번 생각해보기
         public String getPlaceName() {
             return this.placeName;
+        }
+
+        public String getX() {
+            return x;
+        }
+
+        public String getY() {
+            return y;
         }
     }
 }

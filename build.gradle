@@ -13,11 +13,12 @@ repositories {
 
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-webflux'
-    implementation 'org.projectlombok:lombok:1.18.26'
+    implementation 'org.apache.commons:commons-text:1.10.0'
+    implementation 'org.jsoup:jsoup:1.15.4'
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
-    runtimeOnly 'com.h2database:h2'
+    runtimeOnly 'com.h2database:h2:2.1.212'
 }
 
 test {

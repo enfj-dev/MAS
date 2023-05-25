@@ -1,6 +1,6 @@
 ## 1. 장소 검색 서비스
 
-_Place Search Service, 장소 API를 통해 장소 검색_
+_Place Search Service, 여러 외부 장소 검색 API 호출 결과를 결합하여 장소 검색_
 
 <details>
 <summary><b>Specification</b></summary>

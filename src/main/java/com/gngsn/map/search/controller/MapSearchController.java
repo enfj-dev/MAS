@@ -21,7 +21,7 @@ public class MapSearchController {
     }
 
     /**
-     * 다중 외부 장소 검색 API 호출 결과를 병합하여 장소 검색
+     * 다중 외부 장소 검색 API 호출 결과를 결합하여 장소 검색
      */
     @GetMapping("/place/keyword")
     public Mono<PlaceSearchResult> getSearchListByKeyword(@RequestParam final String query) {
