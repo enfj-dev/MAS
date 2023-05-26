@@ -28,6 +28,50 @@ _Place Search Service, 여러 외부 장소 검색 API 호출 결과를 결합�
 
 <br/>
 
+### Request cURL Sample
+
+```cURL
+$ curl -G "http://127.0.0.1:8811/v1/map/search/place/keyword" --data-urlencode "query=한글" -v
+
+*   Trying 127.0.0.1:8811...
+* Connected to 127.0.0.1 (127.0.0.1) port 8811 (#0)
+> GET /v1/map/search/place/keyword?query=%ED%95%9C%EA%B8%80 HTTP/1.1
+> Host: 127.0.0.1:8811
+> User-Agent: curl/7.79.1
+> Accept: */*
+> 
+* Mark bundle as not supporting multiuse
+< HTTP/1.1 200 
+< Content-Type: application/json
+< Transfer-Encoding: chunked
+< Date: Thu, 25 May 2023 17:36:17 GMT
+< 
+{
+  "places" : [ {
+    "title" : "갈미한글공원"
+  }, {
+    "title" : "국립한글박물관"
+  }, {
+    "title" : "여주한글시장"
+  }, {
+    "title" : "한글"
+  }, {
+    "title" : "한글시장 주차장"
+  }, {
+    "title" : "광화문광장한글분수"
+  }, {
+    "title" : "세종한글서예큰뜻모임"
+  }, {
+    "title" : "한글가온길"
+  }, {
+    "title" : "한글학회"
+  }, {
+    "title" : "한글회관"
+  } ]
+```
+
+<br/>
+
 ## 2. 검색 키워드 목록
 
 _Search Keyword Rank List_

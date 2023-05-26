@@ -1,46 +1,53 @@
 package com.gngsn.map.search.model.kakao;
 
+
 import com.gngsn.map.search.config.WebClientConfiguration;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Import;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+import reactor.core.publisher.Mono;
+import reactor.test.StepVerifier;
 
 @ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = KakaoPlaceSearchAPIClientTest.KakaoTestAPIProperty.class)
-@TestPropertySource(locations = "classpath:/secret.properties")
+@Import({KakaoPlaceSearchAPIClient.class, WebClientConfiguration.class})
+@ContextConfiguration(classes = {KakaoPlaceSearchAPIClientTest.KakaoTestAPIProperty.class})
+@TestPropertySource(locations = {"classpath:/secret.properties"})
 class KakaoPlaceSearchAPIClientTest {
-
-    private KakaoPlaceSearchAPIClient kakaoPlaceSearchAPIClient;
 
     @Autowired
     KakaoTestAPIProperty kakaoTestAPIProperty;
 
-
-    @BeforeEach
-    public void setUp() {
-        kakaoPlaceSearchAPIClient = new KakaoPlaceSearchAPIClient(
-                new WebClientConfiguration().webClient(), kakaoTestAPIProperty.getApiSecretKey());
-    }
-
     @Test
-    public void test() throws Exception {
-        kakaoPlaceSearchAPIClient.getResponse(new KakaoPlaceSearchRequest("카카오", 5))
-                .subscribe(res -> {
-                    Assertions.assertEquals(5, res.getPlaceList().size());
-                });
-        Thread.sleep(2_000);
+    public void givenNormalSetting_thenSuccess() {
+        final KakaoPlaceSearchAPIClient kakaoPlaceSearchAPIClient = new KakaoPlaceSearchAPIClient(
+                new WebClientConfiguration().webClient(),
+                kakaoTestAPIProperty.getApiUri(),
+                kakaoTestAPIProperty.getApiSecretKey());
+
+        final Mono<KakaoPlaceSearchResponse> responseMono = kakaoPlaceSearchAPIClient.getResponse(new KakaoPlaceSearchRequest("카카오", 5));
+
+        StepVerifier.create(responseMono)
+                .expectNextMatches(kakaoPlaceSearchResponse -> kakaoPlaceSearchResponse.getPlaceList().size() == 5)
+                .expectComplete()
+                .verify();
     }
+
 
     public static class KakaoTestAPIProperty {
 
+        @Value("${kakao.api.uri}")
+        private String apiUri;
         @Value("${kakao.api.secret.key}")
         private String apiSecretKey;
+
+        public String getApiUri() {
+            return apiUri;
+        }
 
         public String getApiSecretKey() {
             return apiSecretKey;

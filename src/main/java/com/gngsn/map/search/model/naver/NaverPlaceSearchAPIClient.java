@@ -10,8 +10,6 @@ import reactor.core.publisher.Mono;
 
 import java.util.function.Function;
 
-import static com.gngsn.map.search.Constants.NAVER_SEARCH_API_URL;
-
 /**
  * Naver Map Search API Client.
  *
@@ -19,13 +17,16 @@ import static com.gngsn.map.search.Constants.NAVER_SEARCH_API_URL;
  */
 @Component
 public class NaverPlaceSearchAPIClient extends SearchAPIClient<NaverPlaceSearchRequest> {
+    final private String requestUri;
     final private String apiClientId;
     final private String apiClientSecret;
 
     NaverPlaceSearchAPIClient(final WebClient webClient,
+                              @Value("${naver.api.uri}") final String requestUri,
                               @Value("${naver.api.client.id}") final String apiClientId,
                               @Value("${naver.api.client.secret}") final String apiClientSecret) {
         super(webClient);
+        this.requestUri = requestUri;
         this.apiClientId = apiClientId;
         this.apiClientSecret = apiClientSecret;
     }
@@ -57,7 +58,7 @@ public class NaverPlaceSearchAPIClient extends SearchAPIClient<NaverPlaceSearchR
      * NaverPlaceSearchRequest Object → URI Parameters 변경 후 Full URI String 생성
      */
     private String getParamUrl(final NaverPlaceSearchRequest request) {
-        return UriComponentsBuilder.fromUriString(NAVER_SEARCH_API_URL)
+        return UriComponentsBuilder.fromUriString(requestUri)
                 .queryParams(request.toMultiValueMap())
                 .build().toString();
     }

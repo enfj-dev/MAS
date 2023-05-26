@@ -26,6 +26,7 @@ class NaverPlaceSearchAPIClientTest {
     public void setUp() {
         naverPlaceSearchAPIClient = new NaverPlaceSearchAPIClient(
                 new WebClientConfiguration().webClient(),
+                property.getApiUri(),
                 property.getApiClientId(),
                 property.getApiClientSecret());
     }
@@ -40,11 +41,16 @@ class NaverPlaceSearchAPIClientTest {
     }
 
     public static class NaverTestAPIProperty {
+        @Value("${naver.api.uri}")
+        String apiUri;
         @Value("${naver.api.client.id}")
         String apiClientId;
         @Value("${naver.api.client.secret}")
         String apiClientSecret;
 
+        public String getApiUri() {
+            return apiUri;
+        }
 
         public String getApiClientId() {
             return apiClientId;

@@ -2,6 +2,8 @@ package com.gngsn.map.search.model;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gngsn.map.search.dto.PlaceSearchResult;
+import com.gngsn.map.search.exception.SearchAPIExternalServerException;
+import com.gngsn.map.search.exception.SearchAPIBadRequestException;
 import org.springframework.web.reactive.function.client.ClientResponse;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
@@ -42,32 +44,31 @@ public abstract class SearchAPIClient<T extends PlaceSearchRequest> {
      * 외부 API 검색 HTTP 요청 시, 5xx 오류가 발생할 경우 예외 처리 집중화
      */
     protected Function<ClientResponse, Mono<? extends Throwable>> convert5xxException() {
-        return clientResponse -> {
-            throw new RuntimeException(clientResponse.bodyToMono(String.class).toString());
-        };
+        return clientResponse ->
+            clientResponse.bodyToMono(String.class)
+                    .map(response -> new SearchAPIExternalServerException("WebClient External API 호출 시 5xx Server-Side 오류 발생 (Retry). {ClientResponse=" + response + "}"));
     }
 
     /**
      * 외부 API 검색 HTTP 요청 시, 4xx 오류가 발생할 경우 예외 처리 집중화
      */
     protected Function<ClientResponse, Mono<? extends Throwable>> convert4xxException() {
-        return clientResponse -> {
-            throw new IllegalArgumentException(clientResponse.bodyToMono(String.class).toString());
-        };
+        return clientResponse ->
+                clientResponse.bodyToMono(String.class)
+                        .map(response -> new SearchAPIBadRequestException("WebClient External API 호출 시 4xx Client-Side 오류 발생. 데이터 확인 및 조치 필요. {ClientResponse=" + response + "}"));
     }
 
     /**
      * Backoff 적용한 Webclient Request Retry Strategy.
+     * - 5xx 오류 시에만 Retry 시도
      * - maxAttempts = 3: 최초 시도를 포함 3번 재시도 + backoff 지수 2초
      * - jitter: 임의의 난수(계산된 지연의 N%) default 0.5
-     * - Retry 모두 실패 시 RuntimeException
+     * - 모든 Retry 실패 시 WebclientRetryExhaustedException
      */
     protected RetryBackoffSpec buildRetrySpec() {
         return Retry
                 .backoff(RETRY_MAX_ATTEMPTS, Duration.ofSeconds(2L))
-                .filter(throwable -> throwable instanceof Exception)
-                .onRetryExhaustedThrow((retryBackoffSpec, retrySignal) -> {
-                    throw new RuntimeException(String.format("키워드 장소 검색 API Retry %s회 실패. 데이터 확인 후 조치 필요: ", RETRY_MAX_ATTEMPTS));
-                });
+                .jitter(0.75)
+                .filter(throwable -> throwable instanceof SearchAPIExternalServerException);
     }
 }
