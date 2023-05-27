@@ -5,8 +5,8 @@ import org.apache.commons.text.similarity.LevenshteinDistance;
 import java.util.List;
 import java.util.Objects;
 
-import static com.gngsn.map.search.Constants.ALLOW_COUNT_SAME_STRING;
-import static com.gngsn.map.search.Constants.TOO_SHORT_STRING_LENGTH;
+import static com.gngsn.map.common.Constants.ALLOW_COUNT_SAME_STRING;
+import static com.gngsn.map.common.Constants.TOO_SHORT_STRING_LENGTH;
 
 /**
  * 다중 장소 검색 API 호출 후 결합한 결과 데이터 및 사용자 반환 DTO

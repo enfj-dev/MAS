@@ -1,6 +1,6 @@
 package com.gngsn.map.search.controller;
 
-import com.gngsn.map.search.config.WebClientConfiguration;
+import com.gngsn.map.common.config.WebClientConfiguration;
 import com.gngsn.map.search.dto.PlaceSearchResult;
 import com.gngsn.map.search.model.kakao.KakaoPlaceSearchAPIClient;
 import com.gngsn.map.search.model.naver.NaverPlaceSearchAPIClient;

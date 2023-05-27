@@ -14,7 +14,7 @@ import java.time.Duration;
 import java.util.List;
 import java.util.function.Function;
 
-import static com.gngsn.map.search.Constants.RETRY_MAX_ATTEMPTS;
+import static com.gngsn.map.common.Constants.RETRY_MAX_ATTEMPTS;
 
 /**
  * 외부 Map Search API Client.

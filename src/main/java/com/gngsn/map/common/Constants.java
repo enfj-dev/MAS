@@ -1,12 +1,15 @@
-package com.gngsn.map.search;
+package com.gngsn.map.common;
 
 /**
- * Map Search Service 내에서 사용할 Constants.
+ * Static Constants.
  */
+
 public class Constants {
 
+    // ============  Place Search Service  ==============
+
     /**
-     * Place Search System - Common Constants.
+     * Place Search Service - Common Constants.
      */
     public static final int TOTAL_QUERY_SIZE = 10;
     public static final int KAKAO_QUERY_SIZE = TOTAL_QUERY_SIZE;
@@ -21,4 +24,13 @@ public class Constants {
     public static final int MAX_COUNT_NO_LIMIT = -1;
 
     public static final int RETRY_MAX_ATTEMPTS = 3;
+
+
+    // ============  Ranking Service  ==============
+
+    /**
+     * Ranking Service - Common Constants.
+     */
+    public static final int DEFAULT_LIST_COUNT = 10;
 }
+

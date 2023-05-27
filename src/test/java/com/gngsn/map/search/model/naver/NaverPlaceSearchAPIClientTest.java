@@ -1,6 +1,6 @@
 package com.gngsn.map.search.model.naver;
 
-import com.gngsn.map.search.config.WebClientConfiguration;
+import com.gngsn.map.common.config.WebClientConfiguration;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

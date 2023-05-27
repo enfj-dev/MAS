@@ -12,8 +12,8 @@ import reactor.core.publisher.Mono;
 
 import java.util.List;
 
-import static com.gngsn.map.search.Constants.DEFAULT_QUERY_SIZE;
-import static com.gngsn.map.search.Constants.KAKAO_QUERY_SIZE;
+import static com.gngsn.map.common.Constants.DEFAULT_QUERY_SIZE;
+import static com.gngsn.map.common.Constants.KAKAO_QUERY_SIZE;
 
 /**
  * Map Search by Keyword Service.

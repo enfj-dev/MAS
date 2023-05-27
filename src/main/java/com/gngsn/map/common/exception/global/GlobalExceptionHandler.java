@@ -1,6 +1,6 @@
-package com.gngsn.map.search.exception.global;
+package com.gngsn.map.common.exception.global;
 
-import com.gngsn.map.search.dto.ErrorResponse;
+import com.gngsn.map.common.dto.ErrorResponse;
 import com.gngsn.map.search.exception.SearchAPIBadRequestException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import reactor.core.publisher.Mono;
 
-import static com.gngsn.map.search.exception.global.GlobalExceptionHandler.ConstantResponse.INVALID_PARAMETER;
+import static com.gngsn.map.common.exception.global.GlobalExceptionHandler.ConstantResponse.INVALID_PARAMETER;
 
 /**
  * Exception 발생시 후 처리가 필요한 내용 핸들러

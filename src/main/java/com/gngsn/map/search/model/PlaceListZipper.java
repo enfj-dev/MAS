@@ -5,8 +5,8 @@ import com.gngsn.map.search.dto.PlaceSearchResult;
 import java.util.*;
 import java.util.function.BiFunction;
 
-import static com.gngsn.map.search.Constants.DEFAULT_QUERY_SIZE;
-import static com.gngsn.map.search.Constants.TOTAL_QUERY_SIZE;
+import static com.gngsn.map.common.Constants.DEFAULT_QUERY_SIZE;
+import static com.gngsn.map.common.Constants.TOTAL_QUERY_SIZE;
 
 
 /**

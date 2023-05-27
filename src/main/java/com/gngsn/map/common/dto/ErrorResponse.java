@@ -1,4 +1,4 @@
-package com.gngsn.map.search.dto;
+package com.gngsn.map.common.dto;
 
 /**
  * 오류 발생 시 반환 객체

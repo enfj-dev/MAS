@@ -1,7 +1,7 @@
 package com.gngsn.map.search.model.kakao;
 
 
-import com.gngsn.map.search.config.WebClientConfiguration;
+import com.gngsn.map.common.config.WebClientConfiguration;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;

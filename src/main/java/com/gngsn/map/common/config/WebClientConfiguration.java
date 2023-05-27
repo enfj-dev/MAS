@@ -1,4 +1,4 @@
-package com.gngsn.map.search.config;
+package com.gngsn.map.common.config;
 
 import io.netty.channel.ChannelOption;
 import io.netty.handler.timeout.ReadTimeoutHandler;
@@ -18,7 +18,7 @@ import reactor.netty.resources.ConnectionProvider;
 
 import java.time.Duration;
 
-import static com.gngsn.map.search.Constants.MAX_COUNT_NO_LIMIT;
+import static com.gngsn.map.common.Constants.MAX_COUNT_NO_LIMIT;
 
 /**
  * WebClient Configuration.

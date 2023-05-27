@@ -7,7 +7,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import static com.gngsn.map.rank.Constants.DEFAULT_LIST_COUNT;
+import static com.gngsn.map.common.Constants.DEFAULT_LIST_COUNT;
+
 
 /**
  * [v1] Search Keyword Rank Controller
