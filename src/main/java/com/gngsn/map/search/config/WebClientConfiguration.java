@@ -44,7 +44,7 @@ public class WebClientConfiguration {
         });
     }
 
-    public HttpClient nettyHttpClient(ConnectionProvider connectionProvider) {
+    public HttpClient nettyHttpClient(final ConnectionProvider connectionProvider) {
         return HttpClient.create(connectionProvider)
                 .option(ChannelOption.CONNECT_TIMEOUT_MILLIS, 5_000)
                 .doOnConnected(connection ->

@@ -6,7 +6,7 @@ package com.gngsn.map.search;
 public class Constants {
 
     /**
-     * API URI Constants.
+     * Place Search System - Common Constants.
      */
     public static final int TOTAL_QUERY_SIZE = 10;
     public static final int KAKAO_QUERY_SIZE = TOTAL_QUERY_SIZE;
@@ -16,10 +16,9 @@ public class Constants {
     public static final int ALLOW_COUNT_SAME_STRING = 1;
 
     /**
-     * WebClient Constants.
+     * Place Search System - WebClient Constants.
      */
     public static final int MAX_COUNT_NO_LIMIT = -1;
 
     public static final int RETRY_MAX_ATTEMPTS = 3;
-
 }
