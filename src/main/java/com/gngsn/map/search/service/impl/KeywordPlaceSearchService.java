@@ -1,5 +1,6 @@
 package com.gngsn.map.search.service.impl;
 
+import com.gngsn.map.common.cd.CacheType;
 import com.gngsn.map.search.dto.PlaceSearchResult;
 import com.gngsn.map.search.model.PlaceListZipper;
 import com.gngsn.map.search.model.kakao.KakaoPlaceSearchAPIClient;
@@ -7,6 +8,7 @@ import com.gngsn.map.search.model.kakao.KakaoPlaceSearchRequest;
 import com.gngsn.map.search.model.naver.NaverPlaceSearchAPIClient;
 import com.gngsn.map.search.model.naver.NaverPlaceSearchRequest;
 import com.gngsn.map.search.service.PlaceSearchService;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 
@@ -33,12 +35,14 @@ public class KeywordPlaceSearchService implements PlaceSearchService {
      * 키워드 검색 조회
      */
     @Override
+    @Cacheable(value = CacheType.Name.KEYWORD_PLACE_SEARCH, key = "#root.target + #root.methodName + '_'+ #p0")
     public Mono<PlaceSearchResult> search(final String query) {
         return getPlaceList(query).map(PlaceSearchResult::new);
     }
 
     /**
-     * FIXME: 만약 Kakao, Naver 말고 더 추가되면 아래는 확장성 떨어짐
+     * Kakao와 Naver API 응답을 취합
+     * Mono.zip()는 데이터를 Tuple로 처리하기 때문에 순서 중요
      */
     private Mono<List<PlaceSearchResult.Place>> getPlaceList(final String query) {
         return Mono.zip(
