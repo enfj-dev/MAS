@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gngsn.map.search.dto.PlaceSearchResult;
 import com.gngsn.map.search.exception.SearchAPIExternalServerException;
 import com.gngsn.map.search.exception.SearchAPIBadRequestException;
+import com.gngsn.map.search.exception.WebClientRetryExhaustedException;
 import org.springframework.web.reactive.function.client.ClientResponse;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
@@ -69,6 +70,9 @@ public abstract class SearchAPIClient<T extends PlaceSearchRequest> {
         return Retry
                 .backoff(RETRY_MAX_ATTEMPTS, Duration.ofSeconds(2L))
                 .jitter(0.75)
-                .filter(throwable -> throwable instanceof SearchAPIExternalServerException);
+                .filter(throwable -> throwable instanceof SearchAPIExternalServerException)
+                .onRetryExhaustedThrow((retryBackoffSpec, retrySignal) -> {
+                    throw new WebClientRetryExhaustedException(String.format("키워드 장소 검색 API Retry %s회 실패. 데이터 확인 후 조치 필요: ", retrySignal.totalRetries()));
+                });
     }
 }
