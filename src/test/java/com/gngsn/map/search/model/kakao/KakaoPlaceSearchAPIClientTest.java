@@ -2,6 +2,7 @@ package com.gngsn.map.search.model.kakao;
 
 
 import com.gngsn.map.common.config.WebClientConfiguration;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
 
+@DisplayName("Kakao 장소 검색 API 기반의 장소 검색 요청 테스트")
 @ExtendWith(SpringExtension.class)
 @Import({KakaoPlaceSearchAPIClient.class, WebClientConfiguration.class})
 @ContextConfiguration(classes = {KakaoPlaceSearchAPIClientTest.KakaoTestAPIProperty.class})
@@ -23,6 +25,7 @@ class KakaoPlaceSearchAPIClientTest {
     KakaoTestAPIProperty kakaoTestAPIProperty;
 
     @Test
+    @DisplayName("Kakao API의 '카카오' 검색 결과는 RequestSize(5) 만큼의 리스트를 출력")
     public void givenNormalSetting_thenSuccess() {
         final KakaoPlaceSearchAPIClient kakaoPlaceSearchAPIClient = new KakaoPlaceSearchAPIClient(
                 new WebClientConfiguration().webClient(),

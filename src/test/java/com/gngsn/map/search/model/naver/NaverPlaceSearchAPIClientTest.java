@@ -1,8 +1,7 @@
 package com.gngsn.map.search.model.naver;
 
 import com.gngsn.map.common.config.WebClientConfiguration;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,34 +9,34 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+import reactor.core.publisher.Mono;
+import reactor.test.StepVerifier;
 
+@DisplayName("Kakao 장소 검색 API 기반의 장소 검색 요청 테스트")
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = NaverPlaceSearchAPIClientTest.NaverTestAPIProperty.class)
 @TestPropertySource(locations = "classpath:/secret.properties")
 class NaverPlaceSearchAPIClientTest {
 
-    private NaverPlaceSearchAPIClient naverPlaceSearchAPIClient;
-
     @Autowired
     NaverPlaceSearchAPIClientTest.NaverTestAPIProperty property;
 
-
-    @BeforeEach
-    public void setUp() {
-        naverPlaceSearchAPIClient = new NaverPlaceSearchAPIClient(
+    @Test
+    @DisplayName("네이버 API의 '카카오' 검색 결과는 RequestSize(5) 만큼의 리스트를 출력")
+    public void test() throws Exception {
+        final NaverPlaceSearchAPIClient naverPlaceSearchAPIClient = new NaverPlaceSearchAPIClient(
                 new WebClientConfiguration().webClient(),
                 property.getApiUri(),
                 property.getApiClientId(),
                 property.getApiClientSecret());
-    }
 
-    @Test
-    public void test() throws Exception {
-        naverPlaceSearchAPIClient.getResponse(new NaverPlaceSearchRequest("카카오", 5))
-                .subscribe(res -> {
-                    Assertions.assertEquals(5, res.getPlaceList().size());
-                });
-        Thread.sleep(2_000);
+        final Mono<NaverPlaceSearchResponse> responseMono =
+                naverPlaceSearchAPIClient.getResponse(new NaverPlaceSearchRequest("카카오", 5));
+
+        StepVerifier.create(responseMono)
+                .expectNextMatches(naverPlaceSearchResponse -> naverPlaceSearchResponse.getPlaceList().size() == 5)
+                .expectComplete()
+                .verify();
     }
 
     public static class NaverTestAPIProperty {

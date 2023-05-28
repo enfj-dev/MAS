@@ -3,6 +3,7 @@ package com.gngsn.map.rank.controller;
 import com.gngsn.map.rank.dto.RankResult;
 import com.gngsn.map.rank.service.impl.SearchKeywordRankService;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.AutoConfigureDataJpa;
@@ -13,6 +14,7 @@ import org.springframework.test.web.reactive.server.WebTestClient;
 import java.util.List;
 import java.util.stream.IntStream;
 
+@DisplayName("최대 10개의 인기 검색 키워드 목록 조회 기능 테스트")
 @WebFluxTest(SearchKeywordRankController.class)
 @Import({SearchKeywordRankService.class})
 @AutoConfigureDataJpa
@@ -22,6 +24,7 @@ class SearchKeywordRankControllerTest {
     WebTestClient webTestClient;
 
     @Test
+    @DisplayName("인기 검색어 목록은 count 순으로 내림차순 정렬")
     public void test_OrderedRankingList() {
         webTestClient
                 .get()
@@ -29,7 +32,6 @@ class SearchKeywordRankControllerTest {
                 .exchange()
                 .expectStatus().isOk()
                 .expectBody(RankResult.class)
-                .value(placeSearchResult -> Assertions.assertEquals(placeSearchResult.getRanking().size(), 10))
                 .value(placeSearchResult -> {
                     final List<RankResult.Rank> ranking = placeSearchResult.getRanking();
                     Assertions.assertTrue(
