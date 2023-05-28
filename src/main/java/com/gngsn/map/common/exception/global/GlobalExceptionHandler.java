@@ -11,10 +11,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import reactor.core.publisher.Mono;
+import org.springframework.web.server.ServerWebInputException;
 
 import java.util.stream.StreamSupport;
 
+import static com.gngsn.map.common.exception.global.GlobalExceptionHandler.ConstantResponse.INVALID_PARAMETER;
 import static com.gngsn.map.common.exception.global.GlobalExceptionHandler.ConstantResponse.SERVICE_UNAVAILABLE;
 
 /**
@@ -29,7 +30,7 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.SERVICE_UNAVAILABLE)
-    public Mono<ResponseEntity<ErrorResponse>> rootException(final Exception e) {
+    public ResponseEntity<ErrorResponse> rootException(final Exception e) {
         log.error("RootException={Error={}}", e.getMessage());
         e.printStackTrace();
         return SERVICE_UNAVAILABLE;
@@ -40,8 +41,28 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(SearchAPIBadRequestException.class)
     @ResponseStatus(HttpStatus.SERVICE_UNAVAILABLE)
-    public Mono<ResponseEntity<ErrorResponse>> searchAPIBadReqeustException(final SearchAPIBadRequestException e) {
+    public ResponseEntity<ErrorResponse> searchAPIBadReqeustException(final SearchAPIBadRequestException e) {
         return SERVICE_UNAVAILABLE;
+    }
+
+    /**
+     * 사용자의 입력 값이 유효하지 않은 경우
+     */
+    @ExceptionHandler(ServerWebInputException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ResponseEntity<ErrorResponse> serverWebInputException(final ServerWebInputException e) {
+        log.info("ServerWebInputException, Error: {}", e.getMessage());
+        return ResponseEntity.badRequest().body(new ErrorResponse(e.getMessage()));
+    }
+
+    /**
+     * 사용자의 입력 값이 유효하지 않은 경우
+     */
+    @ExceptionHandler(IllegalArgumentException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ResponseEntity<ErrorResponse> illegalArgumentException(final IllegalArgumentException e) {
+        log.info("illegalArgumentException");
+        return INVALID_PARAMETER;
     }
 
     /**
@@ -62,12 +83,10 @@ public class GlobalExceptionHandler {
     }
 
     static class ConstantResponse {
-        public static final Mono<ResponseEntity<ErrorResponse>> INVALID_PARAMETER =
-                Mono.just(ResponseEntity.badRequest().body(new ErrorResponse(
-                        HttpStatus.BAD_REQUEST.getReasonPhrase())));
+        public static final ResponseEntity<ErrorResponse> INVALID_PARAMETER =
+                ResponseEntity.badRequest().body(new ErrorResponse(HttpStatus.BAD_REQUEST.getReasonPhrase()));
 
-        public static final Mono<ResponseEntity<ErrorResponse>> SERVICE_UNAVAILABLE =
-        Mono.just(ResponseEntity.internalServerError()
-                .body(new ErrorResponse("서비스에 일시적인 문제가 있습니다. 잠시 후 다시 시도해 보세요.")));
+        public static final ResponseEntity<ErrorResponse> SERVICE_UNAVAILABLE =
+                ResponseEntity.internalServerError().body(new ErrorResponse("서비스에 일시적인 문제가 있습니다. 잠시 후 다시 시도해 보세요."));
     }
 }

@@ -1,0 +1,51 @@
+@startuml
+
+package Controller <<Folder>> {
+  class SearchKeywordRankController {
+     + <b>/v1/map/rank/search/keyword</b>
+  }
+}
+
+package Service <<Folder>> {
+  interface RankService {
+    + {abstract} getTopList()
+  }
+  class SearchKeywordRankService {
+    + getTopList()
+  }
+}
+
+
+entity Keyword {
+   - id: PK
+   ..
+   - word
+   ..
+   - hit: Index
+}
+
+
+SearchKeywordRankController -> RankService : getTopList()
+SearchKeywordRankController <- RankService : " "
+
+RankService *-d- SearchKeywordRankService
+
+package Client <<Folder>> {
+  interface KeywordRepository {
+      + findAll(Pageable pageable)
+  }
+}
+
+RankService -> KeywordRepository
+RankService <- KeywordRepository
+
+package JpaRepository <<Cloud>> {
+}
+
+package RDS <<Database>> {
+}
+
+KeywordRepository -* JpaRepository
+JpaRepository .. RDS
+
+@enduml

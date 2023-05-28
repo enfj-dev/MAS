@@ -2,11 +2,6 @@ server:
   port: 8811
 
 spring:
-  # Pretty JSON Response
-  jackson:
-    serialization:
-      INDENT_OUTPUT: true
-
   # Database
   datasource:
     url: jdbc:mysql://${rds.mysql.url}

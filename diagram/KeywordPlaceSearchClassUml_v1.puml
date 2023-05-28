@@ -1,0 +1,64 @@
+@startuml
+
+package Controller <<Folder>> {
+  class MapSearchController
+}
+
+package Service <<Folder>> {
+  interface PlaceSearchService {
+    {abstract} search()
+  }
+  class KeywordPlaceSearchService {
+    + search()
+    ..
+    - getPlaceList()
+  }
+}
+
+MapSearchController -> PlaceSearchService : search()
+MapSearchController <- PlaceSearchService
+
+PlaceSearchService *-d- KeywordPlaceSearchService
+
+package Client <<Folder>> {
+  abstract class SearchAPIClient {
+      + getPlaceList()
+      --
+      # {abstract} abstract getResponse()
+  }
+  class KakaoPlaceSearchAPIClient {
+    + getResponse()
+  }
+  class NaverPlaceSearchAPIClient {
+    + getResponse()
+  }
+}
+
+package "Kakao API" <<Cloud>> {
+}
+
+package "Naver API" <<Cloud>> {
+}
+
+PlaceSearchService -> SearchAPIClient: getPlaceList()
+
+
+KakaoPlaceSearchAPIClient -[dotted]-> "Kakao API" : HTTP Request
+SearchAPIClient *-d- KakaoPlaceSearchAPIClient : getResponse()
+NaverPlaceSearchAPIClient -d-* SearchAPIClient : getResponse()
+"Naver API" <-[dotted]- NaverPlaceSearchAPIClient : HTTP Request
+
+
+class PlaceListZipper
+
+PlaceListZipper --> PlaceSearchService
+SearchAPIClient --> PlaceListZipper
+SearchAPIClient --> PlaceListZipper
+
+note bottom
+List<KakaoPlaceSearchResponse>
+List<NaverPlaceSearchResponse>
+-> <b>LinkedHashSet<Place></b>
+end note
+
+@enduml
