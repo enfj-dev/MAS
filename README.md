@@ -2,39 +2,40 @@
 
 🔗 <a target="_blank" href="http://mas.kyeongsun.com"> &nbsp; mas.kyeongsun.com </a>
 
+<br/>
+
 **Objective**
 
-- 지속적 유지 보수 및 확장에 용이한 아키텍처에 대한 설계
-   - Scalability & Encapsulation: 높은 응집도와 낮은 결합도가 유지되도록 책임 할당
-- API 제공자의 “다양한” 장애 및 연동 오류 발생 상황에 대한 고려
-   - 새로운 검색 API 제공자의 추가 시 변경 영역 최소화 고려
-   - 외부 HTTP 요청 시 Error Handling
-- 테스트 코드를 통한 프로그램 검증 및 테스트 용이성(Testability)을 높이기 위한 코드 설계
-- 성능을 위한 Caffeine Cache 설정
+- 확장성 및 캡슐화: 높은 응집도와 낮은 결합도의 책임 할당
+- 검색 API 제공자의 장애 및 연동 오류 발생 상황에 대한 고려
+- 검색 API 제공자의 추가 시 변경 영역 최소화 고려
+- 외부 HTTP 요청 시 에러 핸들링 처리
+- 테스트 코드: 프로그램 검증 및 테스트 용이성을 높이기 위한 코드 설계
+- 성능 향상을 위한 Caffeine Cache 설정
 - 유연한 AWS 백엔드 아키텍처 설계
-   - 사용자 편의성을 위한 Domain 설정 및 Fault Tolerant
-   - AWS ECS, ALB, AutoScaling Group 설정
-   - AWS CloudWatch - CPU, Memory Utilization Monitoring
+    - 사용자 편의성을 위한 Domain 설정 및 Fault Tolerant
+    - AWS ECS, ALB, AutoScaling Group 설정
+    - AWS CloudWatch - CPU, Memory Utilization Monitoring
 
-<br/> 
+<br/><br/>
 <small>Table of Contents</small>
 
 0. [Introduction](#1-introduction)
-   1. [Backend Architecture](#11-backend-architecture)
-   2. [Skill Set](#12-skill-set)
+    1. [Backend Architecture](#11-backend-architecture)
+    2. [Skill Set](#12-skill-set)
 1. [장소 검색 서비스](#2-장소-검색-서비스)
-   1. [Specification](#21-specification)
-   2. [Diagram](#22-diagram)
-   3. [Request](#23-request)
-   4. [Response](#24-response)
+    1. [Specification](#21-specification)
+    2. [Diagram](#22-diagram)
+    3. [Request](#23-request)
+    4. [Response](#24-response)
 2. [검색 키워드 목록](#3-검색-키워드-목록)
-   1. [Specification](#31-specification)
-   2. [Diagram](#32-diagram)
-   3. [Request](#33-request)
-   4. [Response](#34-response)
+    1. [Specification](#31-specification)
+    2. [Diagram](#32-diagram)
+    3. [Request](#33-request)
+    4. [Response](#34-response)
 3. [How to Get Started](#4-how-to-get-started)
-   1. [Docker](#41-docker)
-   2. [Gradle](#42-gradle)
+    1. [Docker](#41-docker)
+    2. [Gradle](#42-gradle)
 
 <br/>
 
@@ -42,7 +43,7 @@
 ## 1. Introduction
 ### 1.1. Backend Architecture
 
-![BackendArchitecture.png](diagram%2FBackendArchitecture.png)
+![BackendArchitecture.png](https://github.com/enfj-dev/MAS/blob/main/diagram/BackendArchitecture.png?raw=true)
 
 🔗 <a target="_blank" href="https://hub.docker.com/repository/docker/gngsn/mas/general"> &nbsp; Docker hub Repository </a>
 
@@ -82,7 +83,7 @@ _Place Search Service, 여러 외부 장소 검색 API 호출 결과를 결합�
     - https://developers.kakao.com/docs/latest/ko/local/dev-guide#search-by-keyword
 - 네이버 장소 검색 API
     - https://developers.naver.com/docs/serviceapi/search/local/local.md#%EC%A7%80%EC%97%AD
-  
+
 <br/>
 </details>
 
@@ -90,7 +91,7 @@ _Place Search Service, 여러 외부 장소 검색 API 호출 결과를 결합�
 
 ### 2.2. Diagram
 
-![KeywordPlaceSearchClassUml_v1.png](diagram%2FKeywordPlaceSearchClassUml_v1.png)
+<img alt="KeywordPlaceSearchClassUml_v1.png" src="https://github.com/enfj-dev/MAS/blob/main/diagram/KeywordPlaceSearchClassUml_v1.png?raw=true"  width="70%" />
 
 <br/>
 
@@ -177,7 +178,7 @@ _Search Keyword Rank List_
 
 ### 3.2. Diagram
 
-![SearchKeywordRankClassUml_v1.png](diagram%2FSearchKeywordRankClassUml_v1.png)
+![SearchKeywordRankClassUml_v1.png](https://github.com/enfj-dev/MAS/blob/main/diagram/SearchKeywordRankClassUml_v1.png?raw=true)
 
 
 <br/>
@@ -245,11 +246,11 @@ curl http://mas.kyeongsun.com/v1/map/rank/search/keyword
 
 ### 4.1. Docker
 
-#### Step 1: 
+#### Step 1:
 
 Pull the docker image from docker hub.
 
-```text
+```docker
 docker pull gngsn/mas:latest
 ```
 
@@ -257,16 +258,17 @@ docker pull gngsn/mas:latest
 
 Run docker container.
 
-```text
+```docker
 docker run -d -p 8811:8811 gngsn/mas:latest
 ```
 
+Please hold on for approximately <b>2-3 minutes</b> while the `.jar` file of the application is being booted.
 
 #### Step 3:
 
 Request using curl.
 
-```text
+```bash
 $ curl -G "http://localhost:8811/v1/map/search/place/keyword" --data-urlencode "query=카카오"
 $ curl http://localhost:8811/v1/map/rank/search/keyword
 ```
@@ -280,7 +282,7 @@ $ curl http://localhost:8811/v1/map/rank/search/keyword
 Clone the MAS repository and navigate to the project directory
 
 ```bash
-git clone https://github.com/gngsn/MAS.git
+git clone https://github.com/enfj-dev/MAS.git
 cd ./MAS
 ```
 
@@ -312,7 +314,7 @@ C:\Users\YourUserName\MAS> gradlew.bat bootRun
 
 Request using curl.
 
-```text
+```bash
 $ curl -G "http://localhost:8811/v1/map/search/place/keyword" --data-urlencode "query=카카오"
 $ curl http://localhost:8811/v1/map/rank/search/keyword
 ```
