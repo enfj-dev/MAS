@@ -2,6 +2,20 @@
 
 🔗 <a target="_blank" href="http://mas.kyeongsun.com"> &nbsp; mas.kyeongsun.com </a>
 
+**Objective**
+
+- 지속적 유지 보수 및 확장에 용이한 아키텍처에 대한 설계
+   - Scalability & Encapsulation: 높은 응집도와 낮은 결합도가 유지되도록 책임 할당
+- API 제공자의 “다양한” 장애 및 연동 오류 발생 상황에 대한 고려
+   - 새로운 검색 API 제공자의 추가 시 변경 영역 최소화 고려
+   - 외부 HTTP 요청 시 Error Handling
+- 테스트 코드를 통한 프로그램 검증 및 테스트 용이성(Testability)을 높이기 위한 코드 설계
+- 성능을 위한 Caffeine Cache 설정
+- 유연한 AWS 백엔드 아키텍처 설계
+   - 사용자 편의성을 위한 Domain 설정 및 Fault Tolerant
+   - AWS ECS, ALB, AutoScaling Group 설정
+   - AWS CloudWatch - CPU, Memory Utilization Monitoring
+
 <br/> 
 <small>Table of Contents</small>
 
@@ -15,7 +29,7 @@
    4. [Response](#24-response)
 2. [검색 키워드 목록](#3-검색-키워드-목록)
    1. [Specification](#31-specification)
-   2. [Specification](#32-diagram)
+   2. [Diagram](#32-diagram)
    3. [Request](#33-request)
    4. [Response](#34-response)
 3. [How to Get Started](#4-how-to-get-started)
@@ -34,7 +48,7 @@
 
 <br/>
 
-### 1. .2Skill Set
+### 1.2. Skill Set
 
 - JDK 17
 - Spring Boot 3, Spring Webflux, Caffeine Cache, MySQL, JPA
@@ -77,6 +91,8 @@ _Place Search Service, 여러 외부 장소 검색 API 호출 결과를 결합�
 ### 2.2. Diagram
 
 ![KeywordPlaceSearchClassUml_v1.png](diagram%2FKeywordPlaceSearchClassUml_v1.png)
+
+<br/>
 
 ### 2.3. Request
 
@@ -300,6 +316,4 @@ Request using curl.
 $ curl -G "http://localhost:8811/v1/map/search/place/keyword" --data-urlencode "query=카카오"
 $ curl http://localhost:8811/v1/map/rank/search/keyword
 ```
-
-
 
