@@ -51,7 +51,6 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(ServerWebInputException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ResponseEntity<ErrorResponse> serverWebInputException(final ServerWebInputException e) {
-        log.info("ServerWebInputException, Error: {}", e.getMessage());
         return ResponseEntity.badRequest().body(new ErrorResponse(e.getMessage()));
     }
 
@@ -61,7 +60,6 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(IllegalArgumentException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ResponseEntity<ErrorResponse> illegalArgumentException(final IllegalArgumentException e) {
-        log.info("illegalArgumentException");
         return INVALID_PARAMETER;
     }
 

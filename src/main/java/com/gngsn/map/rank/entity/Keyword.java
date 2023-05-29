@@ -16,29 +16,11 @@ public class Keyword {
 
     private Integer hit;
 
-    public Keyword() {
-    }
-
-    public Keyword(final Long id, final String word, final Integer hit) {
-        this.id = id;
-        this.word = word;
-        this.hit = hit;
-    }
-
     /**
      * Keyword Entity → Rank DTO
      * - 사용자에게 전달할 데이터 용 객체로 전환
      */
     public RankResult.Rank toRank() {
         return new RankResult.Rank(word, hit);
-    }
-
-    @Override
-    public String toString() {
-        return "Keyword{" +
-                "id=" + id +
-                ", word='" + word + '\'' +
-                ", hit=" + hit +
-                '}';
     }
 }

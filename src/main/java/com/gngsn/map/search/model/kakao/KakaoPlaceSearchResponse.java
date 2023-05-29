@@ -100,13 +100,5 @@ public class KakaoPlaceSearchResponse implements PlaceSearchResponse {
         public String getPlaceName() {
             return this.placeName;
         }
-
-        public String getX() {
-            return x;
-        }
-
-        public String getY() {
-            return y;
-        }
     }
 }
